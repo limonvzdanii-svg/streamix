@@ -3,798 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Streamix — Live Streaming</title>
-
-<style>
-:root {
-    --bg: #0e0e10;
-    --bg2: #18181b;
-    --bg3: #1f1f23;
-    --hover: #26262c;
-    --text: #efeff1;
-    --muted: #adadb8;
-    --purple: #9147ff;
-    --purple2: #772ce8;
-    --red: #eb0400;
-    --border: #303036;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Inter, Arial, Helvetica, sans-serif;
-}
-
-button,
-input {
-    font: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-.app {
-    min-height: 100vh;
-}
-
-/* HEADER */
-
-header {
-    height: 58px;
-    background: #18181b;
-    display: flex;
-    align-items: center;
-    padding: 0 18px;
-    gap: 22px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid #242428;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 21px;
-    font-weight: 900;
-    color: white;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.logo-icon {
-    width: 30px;
-    height: 24px;
-    background: var(--purple);
-    clip-path: polygon(0 0,100% 0,100% 72%,65% 72%,50% 100%,50% 72%,0 72%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 13px;
-}
-
-.nav {
-    display: flex;
-    gap: 4px;
-}
-
-.nav button {
-    background: transparent;
-    border: 0;
-    color: var(--text);
-    padding: 10px 13px;
-    border-radius: 7px;
-    font-weight: 700;
-}
-
-.nav button:hover {
-    background: var(--hover);
-}
-
-.search {
-    flex: 1;
-    max-width: 500px;
-    margin: auto;
-    position: relative;
-}
-
-.search input {
-    width: 100%;
-    height: 38px;
-    background: #101012;
-    color: white;
-    border: 1px solid #46464d;
-    border-radius: 7px;
-    padding: 0 44px 0 14px;
-    outline: none;
-}
-
-.search input:focus {
-    border: 2px solid var(--purple);
-}
-
-.search button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 42px;
-    height: 38px;
-    border: 0;
-    background: #303035;
-    color: white;
-    border-radius: 0 7px 7px 0;
-}
-
-.header-actions {
-    display: flex;
-    gap: 7px;
-    align-items: center;
-}
-
-.icon-btn {
-    width: 38px;
-    height: 38px;
-    border: 0;
-    border-radius: 7px;
-    background: transparent;
-    color: white;
-    font-size: 18px;
-}
-
-.icon-btn:hover {
-    background: var(--hover);
-}
-
-.login {
-    background: #303034;
-    border: 0;
-    color: white;
-    padding: 9px 15px;
-    border-radius: 7px;
-    font-weight: 700;
-}
-
-.signup {
-    background: var(--purple);
-    border: 0;
-    color: white;
-    padding: 9px 15px;
-    border-radius: 7px;
-    font-weight: 700;
-}
-
-.signup:hover {
-    background: var(--purple2);
-}
-
-/* LAYOUT */
-
-.layout {
-    display: flex;
-}
-
-/* SIDEBAR */
-
-.sidebar {
-    width: 240px;
-    background: #18181b;
-    min-height: calc(100vh - 58px);
-    padding: 18px 12px;
-    position: sticky;
-    top: 58px;
-    height: calc(100vh - 58px);
-    overflow-y: auto;
-}
-
-.sidebar h3 {
-    margin: 0 8px 14px;
-    font-size: 14px;
-    color: var(--muted);
-    text-transform: uppercase;
-}
-
-.channel {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.channel:hover {
-    background: var(--hover);
-}
-
-.avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#9147ff,#ff4ecd);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    flex-shrink: 0;
-}
-
-.channel-info {
-    min-width: 0;
-    flex: 1;
-}
-
-.channel-name {
-    font-size: 14px;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.channel-game {
-    color: var(--muted);
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.live-dot {
-    width: 7px;
-    height: 7px;
-    background: var(--red);
-    border-radius: 50%;
-}
-
-/* MAIN */
-
-main {
-    flex: 1;
-    min-width: 0;
-    padding: 30px;
-}
-
-.hero {
-    background:
-        radial-gradient(circle at 80% 20%,rgba(145,71,255,.3),transparent 30%),
-        linear-gradient(135deg,#18181b,#111114);
-    border-radius: 12px;
-    padding: 40px;
-    margin-bottom: 35px;
-    overflow: hidden;
-    position: relative;
-}
-
-.hero h1 {
-    margin: 0 0 10px;
-    font-size: 38px;
-}
-
-.hero p {
-    max-width: 650px;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-.hero button {
-    margin-top: 15px;
-    background: var(--purple);
-    border: 0;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 7px;
-    font-weight: 800;
-}
-
-section {
-    margin-bottom: 42px;
-}
-
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 17px;
-}
-
-.section-title h2 {
-    margin: 0;
-    font-size: 21px;
-}
-
-.section-title span {
-    color: var(--purple);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-/* STREAM GRID */
-
-.stream-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
-    gap: 22px;
-}
-
-.stream-card {
-    min-width: 0;
-    cursor: pointer;
-}
-
-.thumbnail {
-    aspect-ratio: 16 / 9;
-    border-radius: 7px;
-    overflow: hidden;
-    position: relative;
-    background: #222;
-    transition: transform .15s, box-shadow .15s;
-}
-
-.stream-card:hover .thumbnail {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,.5);
-}
-
-.thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.live-label {
-    position: absolute;
-    top: 9px;
-    left: 9px;
-    background: var(--red);
-    color: white;
-    font-size: 12px;
-    font-weight: 900;
-    padding: 4px 7px;
-    border-radius: 3px;
-}
-
-.viewers {
-    position: absolute;
-    bottom: 9px;
-    left: 9px;
-    background: rgba(0,0,0,.75);
-    color: white;
-    padding: 4px 7px;
-    border-radius: 3px;
-    font-size: 12px;
-}
-
-.stream-info {
-    display: flex;
-    gap: 11px;
-    padding-top: 10px;
-}
-
-.stream-info .avatar {
-    width: 40px;
-    height: 40px;
-}
-
-.stream-title {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.35;
-    margin-bottom: 4px;
-}
-
-.streamer {
-    font-size: 13px;
-    color: var(--muted);
-}
-
-.category {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 4px;
-}
-
-/* CATEGORIES */
-
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
-    gap: 17px;
-}
-
-.category-card {
-    cursor: pointer;
-}
-
-.category-card img {
-    width: 100%;
-    aspect-ratio: 3/4;
-    object-fit: cover;
-    border-radius: 7px;
-    transition: transform .15s;
-}
-
-.category-card:hover img {
-    transform: translateY(-4px);
-}
-
-.category-name {
-    margin-top: 8px;
-    font-weight: 800;
-}
-
-.category-viewers {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 3px;
-}
-
-/* PLAYER MODAL */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.82);
-    z-index: 500;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-}
-
-.modal.active {
-    display: flex;
-}
-
-.player-window {
-    width: min(1200px,100%);
-    background: #18181b;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px #000;
-}
-
-.player {
-    background: #000;
-    aspect-ratio: 16/9;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.player-screen {
-    text-align: center;
-}
-
-.player-screen .play {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 0;
-    background: var(--purple);
-    color: white;
-    font-size: 28px;
-}
-
-.player-screen h2 {
-    margin: 18px 0 5px;
-}
-
-.player-screen p {
-    color: var(--muted);
-}
-
-.player-bottom {
-    padding: 17px;
-}
-
-.player-title {
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.player-meta {
-    color: var(--muted);
-    margin-top: 6px;
-}
-
-.close {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    width: 38px;
-    height: 38px;
-    border: 0;
-    background: rgba(0,0,0,.6);
-    color: white;
-    border-radius: 7px;
-    font-size: 20px;
-    z-index: 5;
-}
-
-/* CHAT */
-
-.chat {
-    position: fixed;
-    right: 0;
-    top: 58px;
-    width: 310px;
-    height: calc(100vh - 58px);
-    background: #18181b;
-    border-left: 1px solid var(--border);
-    z-index: 200;
-    display: none;
-    flex-direction: column;
-}
-
-.chat.open {
-    display: flex;
-}
-
-.chat-header {
-    height: 50px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 15px;
-    font-weight: 800;
-}
-
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px;
-}
-
-.message {
-    margin-bottom: 10px;
-    line-height: 1.4;
-    font-size: 13px;
-}
-
-.message b {
-    color: #bf94ff;
-}
-
-.chat-form {
-    padding: 10px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 7px;
-}
-
-.chat-form input {
-    flex: 1;
-    min-width: 0;
-    background: #0f0f11;
-    border: 1px solid #444;
-    color: white;
-    padding: 9px;
-    border-radius: 6px;
-    outline: none;
-}
-
-.chat-form button {
-    background: var(--purple);
-    border: 0;
-    color: white;
-    border-radius: 6px;
-    padding: 0 12px;
-}
-
-/* TOAST */
-
-.toast {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #303034;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 7px;
-    opacity: 0;
-    pointer-events: none;
-    transition: .25s;
-    z-index: 999;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* MOBILE */
-
-@media(max-width:900px) {
-    .sidebar {
-        width: 72px;
-    }
-
-    .sidebar h3,
-    .channel-info,
-    .sidebar .live-dot {
-        display: none;
-    }
-
-    .channel {
-        justify-content: center;
-    }
-
-    main {
-        padding: 20px;
-    }
-
-    .nav {
-        display: none;
-    }
-
-    .chat {
-        width: min(100%,350px);
-    }
-}
-
-@media(max-width:600px) {
-    header {
-        gap: 8px;
-        padding: 0 9px;
-    }
-
-    .logo span {
-        display: none;
-    }
-
-    .header-actions .login {
-        display: none;
-    }
-
-    .search {
-        max-width: none;
-    }
-
-    .sidebar {
-        display: none;
-    }
-
-    main {
-        padding: 14px;
-    }
-
-    .hero {
-        padding: 25px;
-    }
-
-    .hero h1 {
-        font-size: 28px;
-    }
-
-    .stream-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(2,1fr);
-    }
-}
-</style>
+<title>Streamix — Главная</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+<header class="topbar">
 
-<header>
-
-<a class="logo" href="#" onclick="showHome()">
-    <div class="logo-icon">▶</div>
+<a class="logo" href="index.html">
+    <span class="logo-mark">▶</span>
     <span>STREAMIX</span>
 </a>
 
-<nav class="nav">
-    <button onclick="showHome()">Главная</button>
-    <button onclick="showFollowing()">Отслеживаемое</button>
-    <button onclick="showCategories()">Категории</button>
+<nav>
+    <a class="active" href="index.html">Главная</a>
+    <a href="#categories">Категории</a>
+    <a href="#channels">Каналы</a>
 </nav>
 
 <div class="search">
-    <input id="searchInput" placeholder="Поиск..." oninput="searchStreams()">
-    <button onclick="searchStreams()">⌕</button>
+    <input id="search" type="text" placeholder="Поиск каналов и стримов...">
+    <button onclick="performSearch()">⌕</button>
 </div>
 
-<div class="header-actions">
-    <button class="icon-btn" onclick="toggleChat()" title="Чат">💬</button>
-    <button class="icon-btn" onclick="showToast('Уведомления пока пусты')">🔔</button>
-    <button class="login" onclick="showToast('Авторизация будет доступна после подключения backend')">Войти</button>
-    <button class="signup" onclick="showToast('Регистрация будет доступна после подключения backend')">Регистрация</button>
+<div class="actions">
+    <button onclick="toggleChat()" class="action">💬</button>
+    <button onclick="showToast('Уведомлений пока нет')">🔔</button>
+    <button class="login" onclick="showToast('Авторизация появится в следующей версии')">
+        Войти
+    </button>
+    <button class="register" onclick="showToast('Регистрация появится в следующей версии')">
+        Регистрация
+    </button>
 </div>
 
 </header>
 
-<div class="layout">
+<div class="page">
 
 <aside class="sidebar">
 
-<h3>Отслеживаемые</h3>
+<h3>ОТСЛЕЖИВАЕМЫЕ</h3>
 
-<div id="followedChannels"></div>
+<div id="following"></div>
 
-<h3 style="margin-top:25px;">Популярные</h3>
+<h3>ПОПУЛЯРНЫЕ</h3>
 
-<div class="channel">
-    <div class="avatar">L</div>
-    <div class="channel-info">
-        <div class="channel-name">LiveNet</div>
-        <div class="channel-game">Just Chatting</div>
+<div class="side-channel" onclick="openChannel('livenet')">
+    <div class="avatar purple">L</div>
+    <div>
+        <b>LiveNet</b>
+        <small>Just Chatting</small>
     </div>
-    <div class="live-dot"></div>
+    <i></i>
 </div>
 
-<div class="channel">
-    <div class="avatar">B</div>
-    <div class="channel-info">
-        <div class="channel-name">BobrDobrenok</div>
-        <div class="channel-game">Minecraft</div>
+<div class="side-channel" onclick="openChannel('bobrdobrenok')">
+    <div class="avatar blue">B</div>
+    <div>
+        <b>BobrDobrenok</b>
+        <small>Minecraft</small>
     </div>
-    <div class="live-dot"></div>
+    <i></i>
 </div>
 
-<div class="channel">
-    <div class="avatar">C</div>
-    <div class="channel-info">
-        <div class="channel-name">CoreVision</div>
-        <div class="channel-game">Music</div>
+<div class="side-channel" onclick="openChannel('corevision')">
+    <div class="avatar pink">C</div>
+    <div>
+        <b>CoreVision</b>
+        <small>Music</small>
     </div>
-    <div class="live-dot"></div>
+    <i></i>
 </div>
 
 </aside>
 
 <main>
 
-<div class="hero">
+<section class="hero">
 
-<h1>Смотри. Общайся. Стримь.</h1>
+<div>
+
+<div class="hero-badge">🔴 STREAMIX LIVE</div>
+
+<h1>
+Смотри.<br>
+Общайся.<br>
+Стримь.
+</h1>
 
 <p>
-Добро пожаловать в Streamix — современную платформу для прямых трансляций.
-Смотри любимых авторов, находи новые каналы и общайся с другими зрителями.
+Открывай новые каналы, смотри прямые эфиры
+и общайся с людьми со всего мира.
 </p>
 
-<button onclick="scrollToStreams()">Смотреть трансляции</button>
+<a href="#streams" class="hero-button">
+Смотреть трансляции
+</a>
 
 </div>
 
-<section id="streamsSection">
-
-<div class="section-title">
-    <h2>🔴 Прямо сейчас</h2>
-    <span onclick="showAllStreams()">Показать всё</span>
+<div class="hero-decoration">
+STREAMIX
 </div>
-
-<div class="stream-grid" id="streamGrid"></div>
 
 </section>
 
-<section id="categoriesSection">
+<section id="streams">
 
-<div class="section-title">
-    <h2>Категории</h2>
-    <span onclick="showCategories()">Все категории</span>
+<div class="section-header">
+<h2>🔴 Прямо сейчас</h2>
+<a href="#streams">Показать всё</a>
 </div>
 
-<div class="category-grid" id="categoryGrid"></div>
+<div id="streamGrid" class="stream-grid"></div>
+
+</section>
+
+<section id="categories">
+
+<div class="section-header">
+<h2>Популярные категории</h2>
+</div>
+
+<div id="categoryGrid" class="category-grid"></div>
+
+</section>
+
+<section id="channels">
+
+<div class="section-header">
+<h2>Популярные каналы</h2>
+</div>
+
+<div id="channelGrid" class="channel-grid"></div>
 
 </section>
 
@@ -802,572 +145,9 @@ section {
 
 </div>
 
-</div>
+<div id="toast" class="toast"></div>
 
-<!-- CHAT -->
-
-<div class="chat" id="chat">
-
-<div class="chat-header">
-    <span>Чат трансляции</span>
-    <button class="icon-btn" onclick="toggleChat()">×</button>
-</div>
-
-<div class="messages" id="messages">
-
-<div class="message">
-    <b>System:</b> Добро пожаловать в чат!
-</div>
-
-<div class="message">
-    <b>Viewer123:</b> всем привет 👋
-</div>
-
-<div class="message">
-    <b>Alex:</b> сайт выглядит круто
-</div>
-
-</div>
-
-<form class="chat-form" onsubmit="sendMessage(event)">
-    <input id="chatInput" placeholder="Написать сообщение..." maxlength="200">
-    <button>➤</button>
-</form>
-
-</div>
-
-<!-- PLAYER -->
-
-<div class="modal" id="playerModal">
-
-<div class="player-window">
-
-<div class="player">
-
-<button class="close" onclick="closePlayer()">×</button>
-
-<div class="player-screen">
-
-<button class="play" onclick="showToast('Здесь можно подключить настоящий Twitch/Kick/HLS-плеер')">
-    ▶
-</button>
-
-<h2 id="playerTitle">Live Stream</h2>
-
-<p>Видеоплеер готов к подключению реального источника</p>
-
-</div>
-
-</div>
-
-<div class="player-bottom">
-
-<div class="player-title" id="playerTitleBottom"></div>
-
-<div class="player-meta" id="playerMeta"></div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-
-const streams = [
-
-{
-    id: 1,
-    streamer: "LiveNet",
-    title: "LiveNet — прямой эфир 🔴",
-    category: "Just Chatting",
-    viewers: 12480,
-    avatar: "L",
-    image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 2,
-    streamer: "BobrDobrenok",
-    title: "Minecraft survival — строим новый дом!",
-    category: "Minecraft",
-    viewers: 8270,
-    avatar: "B",
-    image: "https://images.unsplash.com/photo-1607513746994-51f730a31a7b?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 3,
-    streamer: "CoreVision",
-    title: "EUROVISION MUSIC NIGHT 🎤",
-    category: "Music",
-    viewers: 6130,
-    avatar: "C",
-    image: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 4,
-    streamer: "TechAlex",
-    title: "Собираю новый ПК в прямом эфире",
-    category: "Technology",
-    viewers: 4280,
-    avatar: "T",
-    image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 5,
-    streamer: "PixelWorld",
-    title: "Гейминговый вечер 🎮",
-    category: "Gaming",
-    viewers: 3190,
-    avatar: "P",
-    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 6,
-    streamer: "MusicBox",
-    title: "Relax music + chat 🎵",
-    category: "Music",
-    viewers: 2710,
-    avatar: "M",
-    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 7,
-    streamer: "RetroTV",
-    title: "Ретро игры до утра",
-    category: "Retro Gaming",
-    viewers: 1940,
-    avatar: "R",
-    image: "https://images.unsplash.com/photo-1600080972464-8e5e5e5e5c5d?auto=format&fit=crop&w=900&q=80"
-},
-
-{
-    id: 8,
-    streamer: "CreativeStudio",
-    title: "Создаю дизайн нового логотипа",
-    category: "Creative",
-    viewers: 1180,
-    avatar: "C",
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=900&q=80"
-}
-
-];
-
-const categories = [
-
-{
-    name: "Just Chatting",
-    viewers: "124K зрителей",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80"
-},
-
-{
-    name: "Gaming",
-    viewers: "92K зрителей",
-    image: "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=500&q=80"
-},
-
-{
-    name: "Music",
-    viewers: "61K зрителей",
-    image: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=500&q=80"
-},
-
-{
-    name: "Technology",
-    viewers: "42K зрителей",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80"
-},
-
-{
-    name: "Creative",
-    viewers: "31K зрителей",
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=500&q=80"
-},
-
-{
-    name: "Retro Gaming",
-    viewers: "19K зрителей",
-    image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=500&q=80"
-}
-
-];
-
-let followed = JSON.parse(localStorage.getItem("streamix_followed") || "[]");
-
-function renderStreams(list = streams) {
-
-    const grid = document.getElementById("streamGrid");
-
-    grid.innerHTML = "";
-
-    if (!list.length) {
-
-        grid.innerHTML = `
-            <div style="color:#aaa;padding:30px 0;">
-                Ничего не найдено 😢
-            </div>
-        `;
-
-        return;
-    }
-
-    list.forEach(stream => {
-
-        const card = document.createElement("div");
-
-        card.className = "stream-card";
-
-        card.innerHTML = `
-
-            <div class="thumbnail">
-
-                <img src="${stream.image}" loading="lazy">
-
-                <div class="live-label">LIVE</div>
-
-                <div class="viewers">
-                    🔴 ${formatNumber(stream.viewers)}
-                </div>
-
-            </div>
-
-            <div class="stream-info">
-
-                <div class="avatar">
-                    ${stream.avatar}
-                </div>
-
-                <div>
-
-                    <div class="stream-title">
-                        ${stream.title}
-                    </div>
-
-                    <div class="streamer">
-                        ${stream.streamer}
-                    </div>
-
-                    <div class="category">
-                        ${stream.category}
-                    </div>
-
-                </div>
-
-            </div>
-        `;
-
-        card.onclick = () => openPlayer(stream);
-
-        grid.appendChild(card);
-
-    });
-
-}
-
-function renderCategories() {
-
-    const grid = document.getElementById("categoryGrid");
-
-    grid.innerHTML = "";
-
-    categories.forEach(category => {
-
-        const card = document.createElement("div");
-
-        card.className = "category-card";
-
-        card.innerHTML = `
-
-            <img src="${category.image}" loading="lazy">
-
-            <div class="category-name">
-                ${category.name}
-            </div>
-
-            <div class="category-viewers">
-                ${category.viewers}
-            </div>
-
-        `;
-
-        card.onclick = () => {
-
-            const result = streams.filter(
-                s => s.category.toLowerCase() === category.name.toLowerCase()
-            );
-
-            renderStreams(result);
-
-            document.getElementById("streamsSection")
-                .scrollIntoView({behavior:"smooth"});
-
-        };
-
-        grid.appendChild(card);
-
-    });
-
-}
-
-function renderFollowed() {
-
-    const box = document.getElementById("followedChannels");
-
-    box.innerHTML = "";
-
-    const followedStreams = streams.filter(
-        stream => followed.includes(stream.id)
-    );
-
-    if (!followedStreams.length) {
-
-        box.innerHTML = `
-            <div style="
-                color:#777;
-                font-size:12px;
-                padding:8px;
-            ">
-                Здесь появятся каналы,<br>
-                которые ты отслеживаешь.
-            </div>
-        `;
-
-        return;
-    }
-
-    followedStreams.forEach(stream => {
-
-        const channel = document.createElement("div");
-
-        channel.className = "channel";
-
-        channel.innerHTML = `
-
-            <div class="avatar">
-                ${stream.avatar}
-            </div>
-
-            <div class="channel-info">
-
-                <div class="channel-name">
-                    ${stream.streamer}
-                </div>
-
-                <div class="channel-game">
-                    ${stream.category}
-                </div>
-
-            </div>
-
-            <div class="live-dot"></div>
-        `;
-
-        channel.onclick = () => openPlayer(stream);
-
-        box.appendChild(channel);
-
-    });
-
-}
-
-function openPlayer(stream) {
-
-    document.getElementById("playerModal")
-        .classList.add("active");
-
-    document.getElementById("playerTitle")
-        .textContent = stream.streamer;
-
-    document.getElementById("playerTitleBottom")
-        .textContent = stream.title;
-
-    document.getElementById("playerMeta")
-        .textContent =
-        `${stream.streamer} · ${stream.category} · ${formatNumber(stream.viewers)} зрителей`;
-
-}
-
-function closePlayer() {
-
-    document.getElementById("playerModal")
-        .classList.remove("active");
-
-}
-
-document.getElementById("playerModal")
-.addEventListener("click", function(e) {
-
-    if(e.target === this) {
-        closePlayer();
-    }
-
-});
-
-function toggleChat() {
-
-    document
-        .getElementById("chat")
-        .classList.toggle("open");
-
-}
-
-function sendMessage(event) {
-
-    event.preventDefault();
-
-    const input = document.getElementById("chatInput");
-
-    const text = input.value.trim();
-
-    if(!text) return;
-
-    const message = document.createElement("div");
-
-    message.className = "message";
-
-    message.innerHTML = `
-        <b>Ты:</b> ${escapeHtml(text)}
-    `;
-
-    document
-        .getElementById("messages")
-        .appendChild(message);
-
-    input.value = "";
-
-    const messages = document.getElementById("messages");
-
-    messages.scrollTop = messages.scrollHeight;
-
-}
-
-function searchStreams() {
-
-    const query =
-        document.getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
-
-    if(!query) {
-
-        renderStreams(streams);
-
-        return;
-
-    }
-
-    const result = streams.filter(stream =>
-
-        stream.title.toLowerCase().includes(query) ||
-        stream.streamer.toLowerCase().includes(query) ||
-        stream.category.toLowerCase().includes(query)
-
-    );
-
-    renderStreams(result);
-
-}
-
-function showHome() {
-
-    renderStreams(streams);
-
-    document
-        .getElementById("streamsSection")
-        .scrollIntoView({behavior:"smooth"});
-
-}
-
-function showAllStreams() {
-
-    renderStreams(streams);
-
-    document
-        .getElementById("streamsSection")
-        .scrollIntoView({behavior:"smooth"});
-
-}
-
-function showFollowing() {
-
-    const result = streams.filter(
-        stream => followed.includes(stream.id)
-    );
-
-    renderStreams(result);
-
-    document
-        .getElementById("streamsSection")
-        .scrollIntoView({behavior:"smooth"});
-
-}
-
-function showCategories() {
-
-    document
-        .getElementById("categoriesSection")
-        .scrollIntoView({behavior:"smooth"});
-
-}
-
-function scrollToStreams() {
-
-    document
-        .getElementById("streamsSection")
-        .scrollIntoView({behavior:"smooth"});
-
-}
-
-function formatNumber(number) {
-
-    if(number >= 1000000)
-        return (number / 1000000).toFixed(1) + "M";
-
-    if(number >= 1000)
-        return (number / 1000).toFixed(1) + "K";
-
-    return number;
-
-}
-
-function showToast(text) {
-
-    const toast = document.getElementById("toast");
-
-    toast.textContent = text;
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2500);
-
-}
-
-function escapeHtml(text) {
-
-    const div = document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-
-}
-
-renderStreams();
-renderCategories();
-renderFollowed();
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
