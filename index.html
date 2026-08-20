@@ -2,90 +2,872 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Streamix — Главная</title>
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Streamix — Live</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --bg:#0b0b0e;
+ --panel:#121216;
+ --panel2:#18181d;
+ --hover:#222229;
+ --line:#292930;
+ --text:#f4f4f5;
+ --muted:#96969f;
+ --purple:#9147ff;
+ --purple2:#772ce8;
+ --red:#ff304f;
+ --green:#22c55e;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+button,input{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+
+.header{
+ height:64px;
+ background:#101014;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ align-items:center;
+ gap:18px;
+ padding:0 18px;
+ position:sticky;
+ top:0;
+ z-index:100;
+}
+
+.logo{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:950;
+ font-size:20px;
+ letter-spacing:-.5px;
+ min-width:145px;
+}
+
+.logoMark{
+ width:31px;
+ height:31px;
+ border-radius:8px;
+ background:var(--purple);
+ display:grid;
+ place-items:center;
+ box-shadow:0 0 20px rgba(145,71,255,.35);
+}
+
+.logoMark span{
+ font-size:14px;
+ transform:translateX(1px);
+}
+
+.nav{
+ display:flex;
+ gap:4px;
+}
+
+.nav button{
+ background:transparent;
+ border:0;
+ color:#dddde2;
+ padding:10px 13px;
+ border-radius:8px;
+ font-weight:700;
+}
+
+.nav button:hover,
+.nav button.active{
+ background:var(--hover);
+ color:white;
+}
+
+.search{
+ flex:1;
+ max-width:560px;
+ margin:0 auto;
+ display:flex;
+}
+
+.search input{
+ width:100%;
+ height:40px;
+ background:#09090b;
+ border:1px solid #45454d;
+ border-right:0;
+ color:white;
+ outline:0;
+ padding:0 14px;
+ border-radius:8px 0 0 8px;
+}
+
+.search input:focus{
+ border:2px solid var(--purple);
+}
+
+.search button{
+ width:48px;
+ border:0;
+ background:#303038;
+ color:white;
+ border-radius:0 8px 8px 0;
+ font-size:20px;
+}
+
+.headerRight{
+ display:flex;
+ gap:6px;
+ align-items:center;
+}
+
+.icon{
+ width:40px;
+ height:40px;
+ border:0;
+ background:transparent;
+ color:white;
+ border-radius:8px;
+ font-size:18px;
+}
+
+.icon:hover{background:var(--hover)}
+
+.login,
+.signup{
+ border:0;
+ border-radius:8px;
+ padding:9px 14px;
+ font-weight:800;
+}
+
+.login{
+ background:#303038;
+ color:white;
+}
+
+.signup{
+ background:var(--purple);
+ color:white;
+}
+
+.signup:hover{background:var(--purple2)}
+
+/* LAYOUT */
+
+.layout{
+ display:flex;
+}
+
+.sidebar{
+ width:245px;
+ min-height:calc(100vh - 64px);
+ background:#101014;
+ border-right:1px solid var(--line);
+ padding:20px 12px;
+ position:sticky;
+ top:64px;
+ height:calc(100vh - 64px);
+ overflow:auto;
+ flex-shrink:0;
+}
+
+.sideTitle{
+ color:#8d8d96;
+ font-size:12px;
+ font-weight:900;
+ letter-spacing:.7px;
+ padding:0 10px 10px;
+}
+
+.sideItem{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ width:100%;
+ padding:8px;
+ border-radius:8px;
+ margin-bottom:2px;
+ cursor:pointer;
+}
+
+.sideItem:hover{background:var(--hover)}
+
+.sideAvatar{
+ width:35px;
+ height:35px;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ color:white;
+ font-weight:900;
+ flex-shrink:0;
+}
+
+.av1{background:linear-gradient(135deg,#9147ff,#d76dff)}
+.av2{background:linear-gradient(135deg,#1677ff,#00c6ff)}
+.av3{background:linear-gradient(135deg,#ff287c,#7c3aed)}
+.av4{background:linear-gradient(135deg,#00a878,#84cc16)}
+.av5{background:linear-gradient(135deg,#ff512f,#f09819)}
+
+.sideText{
+ flex:1;
+ min-width:0;
+}
+
+.sideText strong{
+ display:block;
+ font-size:13px;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+
+.sideText span{
+ display:block;
+ color:var(--muted);
+ font-size:11px;
+ margin-top:3px;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+
+.dot{
+ width:7px;
+ height:7px;
+ background:var(--red);
+ border-radius:50%;
+}
+
+/* MAIN */
+
+.main{
+ flex:1;
+ min-width:0;
+ padding:28px;
+ max-width:1700px;
+}
+
+.hero{
+ min-height:320px;
+ border:1px solid var(--line);
+ border-radius:14px;
+ padding:40px;
+ display:flex;
+ align-items:center;
+ overflow:hidden;
+ position:relative;
+ background:
+ radial-gradient(circle at 80% 30%,rgba(145,71,255,.25),transparent 35%),
+ linear-gradient(135deg,#17171c,#0f0f12);
+}
+
+.heroContent{
+ position:relative;
+ z-index:2;
+}
+
+.hero small{
+ color:#b88cff;
+ font-weight:900;
+ letter-spacing:1px;
+}
+
+.hero h1{
+ font-size:48px;
+ line-height:1;
+ margin:12px 0 15px;
+ letter-spacing:-2px;
+}
+
+.hero p{
+ color:var(--muted);
+ max-width:570px;
+ line-height:1.6;
+ margin:0;
+}
+
+.heroButton{
+ display:inline-flex;
+ margin-top:22px;
+ background:var(--purple);
+ padding:12px 19px;
+ border-radius:8px;
+ font-weight:900;
+}
+
+.heroButton:hover{background:var(--purple2)}
+
+.heroGraphic{
+ position:absolute;
+ right:-80px;
+ width:500px;
+ height:500px;
+ border-radius:50%;
+ border:70px solid rgba(145,71,255,.06);
+ box-shadow:
+ 0 0 0 40px rgba(145,71,255,.03),
+ 0 0 100px rgba(145,71,255,.08);
+}
+
+/* SECTIONS */
+
+.section{
+ margin-top:38px;
+}
+
+.sectionHead{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:17px;
+}
+
+.sectionHead h2{
+ margin:0;
+ font-size:21px;
+}
+
+.sectionHead button{
+ background:transparent;
+ border:0;
+ color:#b987ff;
+ font-weight:800;
+}
+
+/* STREAMS */
+
+.streamGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+ gap:22px;
+}
+
+.stream{
+ cursor:pointer;
+ min-width:0;
+}
+
+.thumb{
+ position:relative;
+ aspect-ratio:16/9;
+ overflow:hidden;
+ border-radius:8px;
+ background:#202026;
+ border:1px solid #292930;
+}
+
+.thumb img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ transition:.2s;
+}
+
+.stream:hover .thumb img{
+ transform:scale(1.035);
+}
+
+.live{
+ position:absolute;
+ top:9px;
+ left:9px;
+ background:var(--red);
+ color:white;
+ font-size:11px;
+ font-weight:950;
+ padding:4px 7px;
+ border-radius:4px;
+}
+
+.viewer{
+ position:absolute;
+ left:9px;
+ bottom:9px;
+ background:rgba(0,0,0,.8);
+ padding:4px 7px;
+ border-radius:4px;
+ font-size:12px;
+}
+
+.streamInfo{
+ display:flex;
+ gap:11px;
+ padding-top:11px;
+}
+
+.streamAvatar{
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ font-weight:950;
+ flex-shrink:0;
+}
+
+.streamText{
+ min-width:0;
+}
+
+.streamText h3{
+ margin:0 0 4px;
+ font-size:14px;
+ line-height:1.35;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+
+.streamText p{
+ margin:0;
+ color:#aaaab3;
+ font-size:13px;
+}
+
+.streamText small{
+ display:block;
+ color:#777780;
+ margin-top:4px;
+ font-size:12px;
+}
+
+/* CATEGORIES */
+
+.categories{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+ gap:16px;
+}
+
+.category{
+ cursor:pointer;
+}
+
+.categoryImg{
+ aspect-ratio:3/4;
+ border-radius:8px;
+ overflow:hidden;
+ background:#222;
+ border:1px solid var(--line);
+}
+
+.categoryImg img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ transition:.2s;
+}
+
+.category:hover img{
+ transform:scale(1.04);
+}
+
+.category h3{
+ margin:8px 0 3px;
+ font-size:14px;
+}
+
+.category p{
+ margin:0;
+ color:var(--muted);
+ font-size:12px;
+}
+
+/* EMPTY */
+
+.empty{
+ padding:45px 20px;
+ text-align:center;
+ color:var(--muted);
+ border:1px dashed #34343b;
+ border-radius:10px;
+}
+
+/* MODAL */
+
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:500;
+ background:rgba(0,0,0,.82);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+
+.modal.open{display:flex}
+
+.modalBox{
+ width:min(1200px,100%);
+ background:#141419;
+ border:1px solid #303038;
+ border-radius:12px;
+ overflow:hidden;
+ box-shadow:0 30px 100px #000;
+}
+
+.video{
+ background:#050505;
+ aspect-ratio:16/9;
+ display:grid;
+ place-items:center;
+ position:relative;
+}
+
+.close{
+ position:absolute;
+ right:12px;
+ top:12px;
+ z-index:2;
+ width:38px;
+ height:38px;
+ border:0;
+ border-radius:8px;
+ background:rgba(0,0,0,.7);
+ color:white;
+ font-size:21px;
+}
+
+.videoCenter{
+ text-align:center;
+}
+
+.play{
+ width:68px;
+ height:68px;
+ border:0;
+ border-radius:50%;
+ background:var(--purple);
+ color:white;
+ font-size:25px;
+ box-shadow:0 0 40px rgba(145,71,255,.3);
+}
+
+.videoCenter h2{
+ margin:15px 0 4px;
+}
+
+.videoCenter p{
+ color:var(--muted);
+ margin:0;
+}
+
+.modalInfo{
+ padding:18px;
+ display:flex;
+ justify-content:space-between;
+ gap:20px;
+}
+
+.modalInfo h2{
+ margin:0 0 6px;
+ font-size:18px;
+}
+
+.modalInfo p{
+ margin:0;
+ color:var(--muted);
+ font-size:13px;
+}
+
+.follow{
+ border:0;
+ background:var(--purple);
+ color:white;
+ padding:10px 16px;
+ border-radius:7px;
+ font-weight:900;
+ white-space:nowrap;
+}
+
+/* CHAT */
+
+.chat{
+ position:fixed;
+ right:0;
+ top:64px;
+ bottom:0;
+ width:330px;
+ background:#151519;
+ border-left:1px solid var(--line);
+ z-index:300;
+ display:none;
+ flex-direction:column;
+}
+
+.chat.open{display:flex}
+
+.chatHeader{
+ height:54px;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 14px;
+ font-weight:900;
+}
+
+.chatHeader button{
+ border:0;
+ background:transparent;
+ color:white;
+ font-size:22px;
+}
+
+.messages{
+ flex:1;
+ overflow:auto;
+ padding:14px;
+}
+
+.msg{
+ margin-bottom:11px;
+ font-size:13px;
+ line-height:1.4;
+}
+
+.msg b{color:#b889ff}
+
+.chatForm{
+ display:flex;
+ gap:6px;
+ padding:10px;
+ border-top:1px solid var(--line);
+}
+
+.chatForm input{
+ flex:1;
+ min-width:0;
+ background:#09090b;
+ border:1px solid #3a3a41;
+ color:white;
+ padding:9px;
+ border-radius:7px;
+ outline:0;
+}
+
+.chatForm button{
+ border:0;
+ background:var(--purple);
+ color:white;
+ border-radius:7px;
+ padding:0 13px;
+}
+
+/* TOAST */
+
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:25px;
+ z-index:999;
+ transform:translate(-50%,30px);
+ background:#29292f;
+ border:1px solid #414149;
+ padding:12px 18px;
+ border-radius:8px;
+ opacity:0;
+ pointer-events:none;
+ transition:.25s;
+}
+
+.toast.show{
+ opacity:1;
+ transform:translate(-50%,0);
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+.sidebar{
+ width:70px;
+}
+
+.sidebar .sideTitle,
+.sidebar .sideText,
+.sidebar .dot{
+ display:none;
+}
+
+.sideItem{
+ justify-content:center;
+}
+
+.nav{
+ display:none;
+}
+
+.logo{
+ min-width:auto;
+}
+
+}
+
+@media(max-width:700px){
+
+.header{
+ padding:0 9px;
+ gap:7px;
+}
+
+.logo span:last-child{
+ display:none;
+}
+
+.search{
+ max-width:none;
+}
+
+.headerRight .login,
+.headerRight .signup{
+ display:none;
+}
+
+.sidebar{
+ display:none;
+}
+
+.main{
+ padding:15px;
+}
+
+.hero{
+ min-height:330px;
+ padding:27px;
+}
+
+.hero h1{
+ font-size:38px;
+}
+
+.heroGraphic{
+ display:none;
+}
+
+.streamGrid{
+ grid-template-columns:1fr;
+}
+
+.categories{
+ grid-template-columns:repeat(2,1fr);
+}
+
+.chat{
+ width:min(100%,350px);
+}
+
+.modal{
+ padding:8px;
+}
+
+.modalInfo{
+ flex-direction:column;
+}
+
+}
+</style>
 </head>
 
 <body>
 
-<header class="topbar">
+<header class="header">
 
-<a class="logo" href="index.html">
-    <span class="logo-mark">▶</span>
-    <span>STREAMIX</span>
+<a href="#" class="logo">
+ <div class="logoMark"><span>▶</span></div>
+ <span>STREAMIX</span>
 </a>
 
-<nav>
-    <a class="active" href="index.html">Главная</a>
-    <a href="#categories">Категории</a>
-    <a href="#channels">Каналы</a>
+<nav class="nav">
+ <button class="active" onclick="home()">Главная</button>
+ <button onclick="scrollToSection('categories')">Категории</button>
+ <button onclick="scrollToSection('streams')">Live</button>
 </nav>
 
 <div class="search">
-    <input id="search" type="text" placeholder="Поиск каналов и стримов...">
-    <button onclick="performSearch()">⌕</button>
+ <input id="search" placeholder="Поиск..." autocomplete="off">
+ <button onclick="search()">⌕</button>
 </div>
 
-<div class="actions">
-    <button onclick="toggleChat()" class="action">💬</button>
-    <button onclick="showToast('Уведомлений пока нет')">🔔</button>
-    <button class="login" onclick="showToast('Авторизация появится в следующей версии')">
-        Войти
-    </button>
-    <button class="register" onclick="showToast('Регистрация появится в следующей версии')">
-        Регистрация
-    </button>
+<div class="headerRight">
+ <button class="icon" onclick="toggleChat()">💬</button>
+ <button class="icon" onclick="toast('Новых уведомлений нет')">🔔</button>
+ <button class="login" onclick="toast('Вход пока работает в режиме демо')">Войти</button>
+ <button class="signup" onclick="toast('Регистрация пока работает в режиме демо')">Регистрация</button>
 </div>
 
 </header>
 
-<div class="page">
+<div class="layout">
 
 <aside class="sidebar">
 
-<h3>ОТСЛЕЖИВАЕМЫЕ</h3>
+<div class="sideTitle">ОТСЛЕЖИВАЕМЫЕ</div>
 
 <div id="following"></div>
 
-<h3>ПОПУЛЯРНЫЕ</h3>
+<div class="sideTitle" style="margin-top:25px">ПОПУЛЯРНЫЕ</div>
 
-<div class="side-channel" onclick="openChannel('livenet')">
-    <div class="avatar purple">L</div>
-    <div>
-        <b>LiveNet</b>
-        <small>Just Chatting</small>
-    </div>
-    <i></i>
+<div class="sideItem" onclick="openStream(0)">
+ <div class="sideAvatar av1">L</div>
+ <div class="sideText">
+  <strong>LiveNet</strong>
+  <span>Just Chatting</span>
+ </div>
+ <div class="dot"></div>
 </div>
 
-<div class="side-channel" onclick="openChannel('bobrdobrenok')">
-    <div class="avatar blue">B</div>
-    <div>
-        <b>BobrDobrenok</b>
-        <small>Minecraft</small>
-    </div>
-    <i></i>
+<div class="sideItem" onclick="openStream(1)">
+ <div class="sideAvatar av2">B</div>
+ <div class="sideText">
+  <strong>BobrDobrenok</strong>
+  <span>Minecraft</span>
+ </div>
+ <div class="dot"></div>
 </div>
 
-<div class="side-channel" onclick="openChannel('corevision')">
-    <div class="avatar pink">C</div>
-    <div>
-        <b>CoreVision</b>
-        <small>Music</small>
-    </div>
-    <i></i>
+<div class="sideItem" onclick="openStream(2)">
+ <div class="sideAvatar av3">C</div>
+ <div class="sideText">
+  <strong>CoreVision</strong>
+  <span>Music</span>
+ </div>
+ <div class="dot"></div>
+</div>
+
+<div class="sideItem" onclick="openStream(3)">
+ <div class="sideAvatar av4">T</div>
+ <div class="sideText">
+  <strong>TechAlex</strong>
+  <span>Technology</span>
+ </div>
+ <div class="dot"></div>
 </div>
 
 </aside>
 
-<main>
+<main class="main">
 
 <section class="hero">
 
-<div>
+<div class="heroContent">
 
-<div class="hero-badge">🔴 STREAMIX LIVE</div>
+<small>● STREAMIX LIVE</small>
 
 <h1>
 Смотри.<br>
@@ -94,60 +876,574 @@
 </h1>
 
 <p>
-Открывай новые каналы, смотри прямые эфиры
-и общайся с людьми со всего мира.
+Прямые трансляции, любимые каналы и живое общение —
+всё в одном месте.
 </p>
 
-<a href="#streams" class="hero-button">
-Смотреть трансляции
+<a href="#streams" class="heroButton">
+Смотреть эфиры
 </a>
 
 </div>
 
-<div class="hero-decoration">
-STREAMIX
-</div>
+<div class="heroGraphic"></div>
 
 </section>
 
-<section id="streams">
+<section class="section" id="streams">
 
-<div class="section-header">
-<h2>🔴 Прямо сейчас</h2>
-<a href="#streams">Показать всё</a>
+<div class="sectionHead">
+ <h2>🔴 Прямо сейчас</h2>
+ <button onclick="showAll()">Показать всё</button>
 </div>
 
-<div id="streamGrid" class="stream-grid"></div>
+<div id="streamGrid" class="streamGrid"></div>
 
 </section>
 
-<section id="categories">
+<section class="section" id="categories">
 
-<div class="section-header">
-<h2>Популярные категории</h2>
+<div class="sectionHead">
+ <h2>Категории</h2>
 </div>
 
-<div id="categoryGrid" class="category-grid"></div>
-
-</section>
-
-<section id="channels">
-
-<div class="section-header">
-<h2>Популярные каналы</h2>
-</div>
-
-<div id="channelGrid" class="channel-grid"></div>
+<div id="categoriesGrid" class="categories"></div>
 
 </section>
 
 </main>
+</div>
+
+<!-- PLAYER -->
+
+<div id="modal" class="modal">
+
+<div class="modalBox">
+
+<div class="video">
+
+<button class="close" onclick="closePlayer()">×</button>
+
+<div class="videoCenter">
+
+<button class="play" onclick="toast('🎥 Здесь можно подключить настоящий HLS / Twitch / Kick поток')">
+▶
+</button>
+
+<h2 id="videoName">LiveNet</h2>
+
+<p>Прямой эфир</p>
+
+</div>
+
+</div>
+
+<div class="modalInfo">
+
+<div>
+ <h2 id="videoTitle">LiveNet — прямой эфир</h2>
+ <p id="videoMeta">LiveNet · Just Chatting · 12.4K зрителей</p>
+</div>
+
+<button class="follow" onclick="followCurrent()">
+ ♡ Подписаться
+</button>
+
+</div>
+
+</div>
+</div>
+
+<!-- CHAT -->
+
+<div id="chat" class="chat">
+
+<div class="chatHeader">
+ <span>Чат</span>
+ <button onclick="toggleChat()">×</button>
+</div>
+
+<div id="messages" class="messages">
+
+<div class="msg"><b>System:</b> Добро пожаловать в Streamix!</div>
+<div class="msg"><b>Viewer123:</b> всем привет 👋</div>
+<div class="msg"><b>Alex:</b> Streamix 🔥</div>
+<div class="msg"><b>Mark:</b> дизайн стал намного лучше</div>
+
+</div>
+
+<form class="chatForm" onsubmit="sendMessage(event)">
+ <input id="message" placeholder="Написать сообщение..." maxlength="200">
+ <button>➤</button>
+</form>
 
 </div>
 
 <div id="toast" class="toast"></div>
 
-<script src="app.js"></script>
+<script>
+
+const streams=[
+
+{
+name:"LiveNet",
+title:"LiveNet — прямой эфир 🔴",
+category:"Just Chatting",
+viewers:12480,
+avatar:"L",
+avatarClass:"av1",
+image:"https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=1000&q=80"
+},
+
+{
+name:"BobrDobrenok",
+title:"Minecraft survival — строим новый дом!",
+category:"Minecraft",
+viewers:8270,
+avatar:"B",
+avatarClass:"av2",
+image:"https://images.unsplash.com/photo-1607513746994-51f730a31a7b?auto=format&fit=crop&w=1000&q=80"
+},
+
+{
+name:"CoreVision",
+title:"EUROVISION MUSIC NIGHT 🎤",
+category:"Music",
+viewers:6130,
+avatar:"C",
+avatarClass:"av3",
+image:"https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=1000&q=80"
+},
+
+{
+name:"TechAlex",
+title:"Собираю новый ПК в прямом эфире",
+category:"Technology",
+viewers:4280,
+avatar:"T",
+avatarClass:"av4",
+image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1000&q=80"
+},
+
+{
+name:"PixelWorld",
+title:"Гейминговый вечер 🎮",
+category:"Gaming",
+viewers:3190,
+avatar:"P",
+avatarClass:"av5",
+image:"https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80"
+},
+
+{
+name:"MusicBox",
+title:"Relax music + chat 🎵",
+category:"Music",
+viewers:2710,
+avatar:"M",
+avatarClass:"av3",
+image:"https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1000&q=80"
+}
+
+];
+
+const categories=[
+
+{
+name:"Just Chatting",
+viewers:"124K",
+image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+name:"Gaming",
+viewers:"92K",
+image:"https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+name:"Music",
+viewers:"61K",
+image:"https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+name:"Technology",
+viewers:"42K",
+image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+name:"Creative",
+viewers:"31K",
+image:"https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+name:"Retro Gaming",
+viewers:"19K",
+image:"https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=600&q=80"
+}
+
+];
+
+let current=null;
+
+let followed=
+JSON.parse(localStorage.getItem("streamix_followed")||"[]");
+
+function renderStreams(list=streams){
+
+const grid=document.getElementById("streamGrid");
+
+grid.innerHTML="";
+
+if(!list.length){
+
+grid.innerHTML=
+'<div class="empty">По твоему запросу ничего не найдено 😢</div>';
+
+return;
+
+}
+
+list.forEach((s,i)=>{
+
+const el=document.createElement("article");
+
+el.className="stream";
+
+el.innerHTML=`
+
+<div class="thumb">
+
+<img src="${s.image}" loading="lazy">
+
+<div class="live">LIVE</div>
+
+<div class="viewer">
+🔴 ${number(s.viewers)}
+</div>
+
+</div>
+
+<div class="streamInfo">
+
+<div class="streamAvatar ${s.avatarClass}">
+${s.avatar}
+</div>
+
+<div class="streamText">
+
+<h3>${safe(s.title)}</h3>
+
+<p>${safe(s.name)}</p>
+
+<small>${safe(s.category)}</small>
+
+</div>
+
+</div>
+`;
+
+el.onclick=()=>openStream(i);
+
+grid.appendChild(el);
+
+});
+
+}
+
+function renderCategories(){
+
+const grid=document.getElementById("categoriesGrid");
+
+grid.innerHTML="";
+
+categories.forEach(c=>{
+
+const el=document.createElement("div");
+
+el.className="category";
+
+el.innerHTML=`
+
+<div class="categoryImg">
+<img src="${c.image}" loading="lazy">
+</div>
+
+<h3>${safe(c.name)}</h3>
+<p>${c.viewers} зрителей</p>
+`;
+
+el.onclick=()=>{
+
+const result=streams.filter(
+s=>s.category.toLowerCase()===c.name.toLowerCase()
+);
+
+renderStreams(result);
+
+scrollToSection("streams");
+
+};
+
+grid.appendChild(el);
+
+});
+
+}
+
+function renderFollowing(){
+
+const box=document.getElementById("following");
+
+box.innerHTML="";
+
+const list=streams.filter(
+(s,i)=>followed.includes(i)
+);
+
+if(!list.length){
+
+box.innerHTML=
+'<div style="color:#686870;font-size:11px;padding:8px;line-height:1.5">Подпишись на каналы,<br>и они появятся здесь.</div>';
+
+return;
+
+}
+
+list.forEach((s,i)=>{
+
+const original=streams.indexOf(s);
+
+const el=document.createElement("div");
+
+el.className="sideItem";
+
+el.innerHTML=`
+
+<div class="sideAvatar ${s.avatarClass}">
+${s.avatar}
+</div>
+
+<div class="sideText">
+<strong>${s.name}</strong>
+<span>${s.category}</span>
+</div>
+
+<div class="dot"></div>
+`;
+
+el.onclick=()=>openStream(original);
+
+box.appendChild(el);
+
+});
+
+}
+
+function openStream(index){
+
+current=index;
+
+const s=streams[index];
+
+document.getElementById("videoName").textContent=s.name;
+
+document.getElementById("videoTitle").textContent=s.title;
+
+document.getElementById("videoMeta").textContent=
+`${s.name} · ${s.category} · ${number(s.viewers)} зрителей`;
+
+document.getElementById("modal").classList.add("open");
+
+}
+
+function closePlayer(){
+
+document.getElementById("modal").classList.remove("open");
+
+}
+
+document.getElementById("modal").onclick=e=>{
+
+if(e.target.id==="modal")
+closePlayer();
+
+};
+
+function followCurrent(){
+
+if(current===null)return;
+
+if(followed.includes(current)){
+
+followed=followed.filter(x=>x!==current);
+
+toast("Вы отписались от канала");
+
+}else{
+
+followed.push(current);
+
+toast("❤️ Вы подписались на "+streams[current].name);
+
+}
+
+localStorage.setItem(
+"streamix_followed",
+JSON.stringify(followed)
+);
+
+renderFollowing();
+
+}
+
+function toggleChat(){
+
+document.getElementById("chat")
+.classList.toggle("open");
+
+}
+
+function sendMessage(e){
+
+e.preventDefault();
+
+const input=document.getElementById("message");
+
+const text=input.value.trim();
+
+if(!text)return;
+
+const msg=document.createElement("div");
+
+msg.className="msg";
+
+msg.innerHTML=
+"<b>Ты:</b> "+safe(text);
+
+document.getElementById("messages").appendChild(msg);
+
+input.value="";
+
+const box=document.getElementById("messages");
+
+box.scrollTop=box.scrollHeight;
+
+}
+
+function search(){
+
+const q=document
+.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+if(!q){
+
+renderStreams();
+
+return;
+
+}
+
+const result=streams.filter(s=>
+s.name.toLowerCase().includes(q)||
+s.title.toLowerCase().includes(q)||
+s.category.toLowerCase().includes(q)
+);
+
+renderStreams(result);
+
+scrollToSection("streams");
+
+}
+
+document.getElementById("search")
+.addEventListener("keydown",e=>{
+
+if(e.key==="Enter")
+search();
+
+});
+
+function showAll(){
+
+renderStreams();
+
+scrollToSection("streams");
+
+}
+
+function home(){
+
+renderStreams();
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+function scrollToSection(id){
+
+document
+.getElementById(id)
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function toast(text){
+
+const el=document.getElementById("toast");
+
+el.textContent=text;
+
+el.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
+
+el.classList.remove("show");
+
+},2500);
+
+}
+
+function number(n){
+
+if(n>=1000000)
+return (n/1000000).toFixed(1)+"M";
+
+if(n>=1000)
+return (n/1000).toFixed(1)+"K";
+
+return n;
+
+}
+
+function safe(text){
+
+const div=document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+renderStreams();
+renderCategories();
+renderFollowing();
+
+</script>
 
 </body>
 </html>
