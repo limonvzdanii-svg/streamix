@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Streamix — Канал</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+<a class="logo" href="index.html">
+    <span class="logo-mark">▶</span>
+    <span>STREAMIX</span>
+</a>
+
+<nav>
+    <a href="index.html">Главная</a>
+    <a href="index.html#categories">Категории</a>
+</nav>
+
+<div class="search">
+    <input id="channelSearch" placeholder="Поиск...">
+</div>
+
+<div class="actions">
+
+<button class="action" onclick="toggleChannelChat()">💬</button>
+
+<button onclick="showToast('Уведомлений пока нет')">
+🔔
+</button>
+
+<button class="login">
+Войти
+</button>
+
+<button class="register">
+Регистрация
+</button>
+
+</div>
+
+</header>
+
+<div class="watch-layout">
+
+<main class="watch">
+
+<div class="video-container">
+
+<div class="video-screen">
+
+<div class="offline-icon">
+▶
+</div>
+
+<h2 id="videoChannel">
+LiveNet
+</h2>
+
+<p>
+Прямой эфир
+</p>
+
+<button onclick="startDemoVideo()" class="play-button">
+▶
+</button>
+
+</div>
+
+</div>
+
+<div class="stream-details">
+
+<div class="stream-author">
+
+<div id="channelAvatar" class="big-avatar purple">
+L
+</div>
+
+<div>
+
+<h1 id="channelTitle">
+LiveNet
+</h1>
+
+<div id="channelCategory">
+Just Chatting
+</div>
+
+</div>
+
+</div>
+
+<button id="followButton"
+class="follow-button"
+onclick="toggleFollow()">
+♡ Подписаться
+</button>
+
+</div>
+
+<div class="tags">
+
+<span>LIVE</span>
+<span id="categoryTag">Just Chatting</span>
+<span>Русский</span>
+
+</div>
+
+<div class="about">
+
+<h2>О канале</h2>
+
+<p id="channelDescription">
+Добро пожаловать на официальный канал Streamix.
+Здесь проходят прямые эфиры, общение и специальные трансляции.
+</p>
+
+<div class="stats">
+
+<div>
+<strong id="viewerCount">12.4K</strong>
+<span>зрителей</span>
+</div>
+
+<div>
+<strong id="followerCount">18.7K</strong>
+<span>подписчиков</span>
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<aside id="chatPanel" class="watch-chat">
+
+<div class="chat-title">
+<span>Чат трансляции</span>
+<button onclick="toggleChannelChat()">×</button>
+</div>
+
+<div id="chatMessages" class="chat-messages">
+
+<div>
+<b>System</b>
+Добро пожаловать в чат!
+</div>
+
+<div>
+<b>Alex</b>
+всем привет 👋
+</div>
+
+<div>
+<b>Viewer123</b>
+Streamix 🔥
+</div>
+
+</div>
+
+<form class="chat-input"
+onsubmit="sendChannelMessage(event)">
+
+<input
+id="messageInput"
+placeholder="Отправить сообщение..."
+maxlength="200">
+
+<button>➤</button>
+
+</form>
+
+</aside>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const channels = {
+
+livenet: {
+name: "LiveNet",
+category: "Just Chatting",
+avatar: "L",
+color: "purple",
+viewers: "12.4K",
+followers: "18.7K",
+description:
+"Добро пожаловать на официальный канал LiveNet. Здесь проходят прямые эфиры, новости и общение с аудиторией."
+},
+
+bobrdobrenok: {
+name: "BobrDobrenok",
+category: "Minecraft",
+avatar: "B",
+color: "blue",
+viewers: "8.2K",
+followers: "13.4K",
+description:
+"Minecraft, игры, челленджи и весёлые эфиры."
+},
+
+corevision: {
+name: "CoreVision",
+category: "Music",
+avatar: "C",
+color: "pink",
+viewers: "6.1K",
+followers: "9.8K",
+description:
+"Музыкальные трансляции и Eurovision-проекты."
+}
+
+};
+
+let currentChannel =
+new URLSearchParams(location.search).get("channel") || "livenet";
+
+let following =
+JSON.parse(localStorage.getItem("streamix_following") || "[]");
+
+function loadChannel() {
+
+const channel =
+channels[currentChannel] || channels.livenet;
+
+document.title =
+"Streamix — " + channel.name;
+
+document.getElementById("videoChannel")
+.textContent = channel.name;
+
+document.getElementById("channelTitle")
+.textContent = channel.name;
+
+document.getElementById("channelCategory")
+.textContent = channel.category;
+
+document.getElementById("categoryTag")
+.textContent = channel.category;
+
+document.getElementById("channelDescription")
+.textContent = channel.description;
+
+document.getElementById("viewerCount")
+.textContent = channel.viewers;
+
+document.getElementById("followerCount")
+.textContent = channel.followers;
+
+const avatar =
+document.getElementById("channelAvatar");
+
+avatar.textContent = channel.avatar;
+
+avatar.className =
+"big-avatar " + channel.color;
+
+updateFollowButton();
+
+}
+
+function toggleFollow() {
+
+if(following.includes(currentChannel)) {
+
+following =
+following.filter(x => x !== currentChannel);
+
+showToast("Вы отписались от канала");
+
+} else {
+
+following.push(currentChannel);
+
+showToast("Вы подписались на канал ❤️");
+
+}
+
+localStorage.setItem(
+"streamix_following",
+JSON.stringify(following)
+);
+
+updateFollowButton();
+
+}
+
+function updateFollowButton() {
+
+const button =
+document.getElementById("followButton");
+
+if(following.includes(currentChannel)) {
+
+button.textContent = "♥ Вы подписаны";
+button.classList.add("following");
+
+} else {
+
+button.textContent = "♡ Подписаться";
+button.classList.remove("following");
+
+}
+
+}
+
+function sendChannelMessage(event) {
+
+event.preventDefault();
+
+const input =
+document.getElementById("messageInput");
+
+const text =
+input.value.trim();
+
+if(!text) return;
+
+const message =
+document.createElement("div");
+
+message.innerHTML =
+"<b>Ты</b> " +
+escapeHtml(text);
+
+document
+.getElementById("chatMessages")
+.appendChild(message);
+
+input.value = "";
+
+const box =
+document.getElementById("chatMessages");
+
+box.scrollTop =
+box.scrollHeight;
+
+}
+
+function toggleChannelChat() {
+
+document
+.getElementById("chatPanel")
+.classList.toggle("open");
+
+}
+
+function startDemoVideo() {
+
+showToast(
+"🎥 Здесь можно подключить Twitch, Kick или HLS"
+);
+
+}
+
+function showToast(text) {
+
+const toast =
+document.getElementById("toast");
+
+toast.textContent = text;
+
+toast.classList.add("show");
+
+setTimeout(() => {
+
+toast.classList.remove("show");
+
+}, 2500);
+
+}
+
+function escapeHtml(text) {
+
+const div =
+document.createElement("div");
+
+div.textContent = text;
+
+return div.innerHTML;
+
+}
+
+loadChannel();
+
+</script>
+
+</body>
+</html>
