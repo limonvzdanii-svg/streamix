@@ -1,5 +1,5 @@
 import { handleChannels } from "./channels.js";
-const COOKIE_HOST="__Host-streamix_session", COOKIE_LOCAL="streamix_session", TTL=2592000, ITERATIONS=310000;
+const COOKIE_HOST="__Host-streamix_session", COOKIE_LOCAL="streamix_session", TTL=2592000, ITERATIONS=100000;
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store",...headers}});
 const bytes=n=>{const b=new Uint8Array(n);crypto.getRandomValues(b);return b};
 const b64=b=>{let s="";for(const x of b)s+=String.fromCharCode(x);return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"")};
