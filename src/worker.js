@@ -15,7 +15,7 @@ async function session(id,env){const t=b64(bytes(32)),now=Math.floor(Date.now()/
 async function api(req,env){const u=new URL(req.url),p=u.pathname;
 if(req.method==="GET"&&p==="/api/health")return json({ok:true});
 if(req.method==="POST"){const origin=req.headers.get("Origin");if(origin&&origin!==u.origin)return json({error:"Недопустимый источник запроса."},403)}
-if(p==="/api/channels"||p.startsWith("/api/channels/")){const user=await userFor(req,env);if(!user)return json({error:"��������� �����������."},401);return await handleChannels(req,env,user)}if(req.method==="GET"&&p==="/api/me"){const user=await userFor(req,env);return json({authenticated:!!user,user:user?{id:user.id,email:user.email}:null})}
+if(p==="/api/channels"||p.startsWith("/api/channels/")){const user=await userFor(req,env);if(!user)return json({error:"\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f."},401);return await handleChannels(req,env,user)}if(req.method==="GET"&&p==="/api/me"){const user=await userFor(req,env);return json({authenticated:!!user,user:user?{id:user.id,email:user.email}:null})}
 if(req.method==="POST"&&(p==="/api/register"||p==="/api/login")){let body;try{body=await req.json()}catch{return json({error:"Некорректный запрос."},400)}
 const email=String(body.email||"").trim().toLowerCase(),password=String(body.password||"");
 if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254)return json({error:"Укажи корректную электронную почту."},400);
