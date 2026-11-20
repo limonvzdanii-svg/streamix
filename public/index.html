@@ -4,85 +4,119 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10131d">
-  <meta name="description" content="STREAMIX — платформа интернет-телевидения. Смотри эфиры и создавай собственные каналы.">
+  <meta name="description" content="STREAMIX — платформа интернет-телевидения. Создавай телеканалы и управляй трансляциями.">
   <title>STREAMIX — интернет-телевидение</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#" aria-label="STREAMIX — главная"><span class="brand-mark">S</span> STREAMIX</a>
+    <a class="brand" href="#top" aria-label="STREAMIX — главная"><span class="brand-mark">S</span><span>STREAMIX</span></a>
     <nav class="nav-links" aria-label="Основная навигация">
-      <a href="#channels">Каналы</a>
+      <a href="#channels">Мои каналы</a>
       <a href="#about">О платформе</a>
     </nav>
     <div class="top-actions">
-      <button class="icon-button" id="theme-toggle" type="button" aria-label="Переключить тему" title="Переключить тему">☼</button>
+      <button class="icon-button" id="theme-toggle" type="button" aria-label="Переключить тему" title="Переключить тему">◐</button>
       <button class="button button-quiet" id="login-open" type="button">Войти</button>
       <button class="button button-primary" id="register-open" type="button">Регистрация</button>
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <section class="hero">
       <div class="hero-copy">
-        <span class="eyebrow"><span class="live-dot"></span> ТВОЁ ТЕЛЕВИДЕНИЕ — ТВОИ ПРАВИЛА</span>
-        <h1>Смотри. Создавай.<br><span>Вещай.</span></h1>
-        <p>STREAMIX объединяет интернет-телеканалы в одном месте. Смотри прямые эфиры или создай собственный канал, когда будешь готов.</p>
+        <span class="eyebrow"><span class="live-dot"></span> ТВОЁ ИНТЕРНЕТ-ТЕЛЕВИДЕНИЕ</span>
+        <h1>Твой эфир.<br><span>Твои правила.</span></h1>
+        <p>Создавай собственные интернет-телеканалы, управляй ключами трансляции и собирай своё телевидение в одном месте.</p>
         <div class="hero-actions">
-          <a class="button button-primary button-large" href="#channels">Смотреть каналы <span aria-hidden="true">→</span></a>
+          <a class="button button-primary button-large" href="#channels">Мои каналы <span aria-hidden="true">→</span></a>
           <button class="button button-outline button-large" id="hero-register" type="button">Создать аккаунт</button>
         </div>
-        <div class="hero-note"><span class="note-icon">✓</span> Регистрация не обязывает создавать канал</div>
+        <div class="hero-note"><span class="note-icon">✓</span> Регистрация не создаёт канал автоматически</div>
       </div>
-      <div class="hero-art" aria-label="Иллюстрация видеоплеера">
+      <div class="hero-art" aria-label="Предпросмотр панели STREAMIX">
         <div class="screen-glow"></div>
-        <div class="player-card">
-          <div class="player-top"><span class="player-brand">STREAMIX</span><span class="live-pill"><i></i> LIVE</span></div>
-          <div class="player-center"><div class="play-button">▶</div><span>ТВОЙ ЭФИР НАЧИНАЕТСЯ ЗДЕСЬ</span></div>
-          <div class="player-bottom"><span>STREAMIX ORIGINAL</span><span>● ● ●</span></div>
+        <div class="preview-card">
+          <div class="preview-top"><span class="preview-brand">STREAMIX / STUDIO</span><span class="live-pill"><i></i> READY</span></div>
+          <div class="preview-screen">
+            <div class="signal-orbit orbit-one"></div><div class="signal-orbit orbit-two"></div>
+            <div class="preview-play">▶</div>
+            <strong>ТВОЙ КАНАЛ</strong>
+            <span>ГОТОВ К ЗАПУСКУ</span>
+          </div>
+          <div class="preview-bottom"><span>CHANNEL CONTROL</span><span>● ● ●</span></div>
         </div>
         <div class="floating-tag tag-one">✦ Свои каналы</div>
-        <div class="floating-tag tag-two">◉ Прямой эфир</div>
+        <div class="floating-tag tag-two">◉ Управление эфиром</div>
       </div>
     </section>
 
-    <section class="section" id="channels">
+    <section class="section channels-section" id="channels">
       <div class="section-heading">
-        <div><span class="eyebrow">ОТКРЫВАЙ НОВОЕ</span><h2>Каналы платформы</h2></div>
-        <span class="muted">Здесь появятся доступные трансляции</span>
+        <div><span class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</span><h2>Мои каналы</h2></div>
+        <span class="muted" id="channel-count">Войди, чтобы управлять телеканалами</span>
       </div>
-      <div class="empty-state">
-        <div class="empty-icon">▣</div>
-        <h3>Пока нет опубликованных каналов</h3>
-        <p>Зарегистрируйся и создай свой канал — или возвращайся позже, чтобы посмотреть эфиры сообщества.</p>
-        <button class="button button-outline" id="empty-register" type="button">Присоединиться к STREAMIX</button>
+
+      <div class="account-gate" id="account-gate">
+        <div class="gate-icon">▣</div>
+        <div class="gate-copy"><h3>Твои телеканалы будут здесь</h3><p>Войди в аккаунт или зарегистрируйся. Создавать канал можно отдельно — сразу после регистрации это делать необязательно.</p></div>
+        <div class="gate-actions"><button class="button button-outline" id="gate-login" type="button">Войти</button><button class="button button-primary" id="gate-register" type="button">Создать аккаунт</button></div>
+      </div>
+
+      <div class="dashboard" id="dashboard" hidden>
+        <div class="create-panel">
+          <div class="create-heading"><div><span class="eyebrow">НОВЫЙ ТЕЛЕКАНАЛ</span><h3>Создать канал</h3></div><span class="create-mark">＋</span></div>
+          <form id="channel-form" class="channel-form">
+            <div class="form-grid">
+              <label>Название канала<input id="channel-name" name="name" type="text" minlength="2" maxlength="60" placeholder="Например, Мой телеканал" required></label>
+              <label>Адрес канала<input id="channel-slug" name="slug" type="text" minlength="3" maxlength="40" pattern="[a-z0-9][a-z0-9-]{1,38}[a-z0-9]" placeholder="my-tv-channel" autocomplete="off" required><small>латиница, цифры и дефисы; от 3 до 40 символов</small></label>
+            </div>
+            <label>Описание <span class="optional-label">необязательно</span><textarea id="channel-description" name="description" maxlength="300" rows="3" placeholder="Расскажи зрителям о своём канале"></textarea></label>
+            <div class="form-footer"><p class="form-notice" id="channel-notice" role="status" aria-live="polite"></p><button class="button button-primary" id="channel-submit" type="submit">Создать телеканал <span aria-hidden="true">→</span></button></div>
+          </form>
+        </div>
+
+        <div class="channel-list-heading"><h3>Твои телеканалы</h3><span class="muted">У каждого канала свой RTMP-ключ</span></div>
+        <div class="channel-grid" id="channel-list" aria-live="polite"></div>
       </div>
     </section>
 
     <section class="feature-grid" id="about">
-      <article class="feature-card"><span class="feature-icon">▤</span><h3>Смотри эфиры</h3><p>Каталог телеканалов и страницы трансляций в одном интерфейсе.</p></article>
-      <article class="feature-card"><span class="feature-icon">＋</span><h3>Создай канал</h3><p>Собственный канал — по желанию, в любое время после регистрации.</p></article>
-      <article class="feature-card"><span class="feature-icon">⌁</span><h3>Управляй эфиром</h3><p>Отдельный ключ трансляции для каждого канала с возможностью сброса.</p></article>
+      <article class="feature-card"><span class="feature-icon">▣</span><h3>Свои телеканалы</h3><p>Создавай несколько каналов в одном аккаунте. У каждого будет собственное название, адрес и настройки.</p></article>
+      <article class="feature-card"><span class="feature-icon">✦</span><h3>Отдельные ключи</h3><p>Для каждого канала создаётся уникальный RTMP-ключ. Его можно посмотреть или заменить в личном кабинете.</p></article>
+      <article class="feature-card"><span class="feature-icon">⌁</span><h3>Управление эфиром</h3><p>Управляй доступом к ключам трансляции. При сбросе старый ключ заменяется новым.</p></article>
     </section>
   </main>
 
-  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">S</span> STREAMIX</a><span>STREAMIX 2.0 · Проект в разработке</span></footer>
+  <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">S</span><span>STREAMIX</span></a><span>STREAMIX · Проект в разработке</span></footer>
 
-  <dialog class="auth-dialog" id="auth-dialog">
+  <dialog class="auth-dialog" id="auth-dialog" aria-labelledby="dialog-title">
     <form method="dialog" class="dialog-close-row"><button class="icon-button" aria-label="Закрыть">×</button></form>
     <div class="dialog-content">
       <span class="eyebrow">ДОБРО ПОЖАЛОВАТЬ</span>
       <h2 id="dialog-title">Создать аккаунт</h2>
-      <p id="dialog-description">Регистрация позволит смотреть эфиры и при желании создать собственный канал.</p>
+      <p id="dialog-description">Зарегистрируйся, чтобы управлять собственными телеканалами.</p>
       <form id="auth-form">
         <label for="email">Электронная почта</label>
         <input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
         <label for="password">Пароль</label>
-        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Не менее 8 символов" minlength="8" required>
-        <button class="button button-primary button-full" id="auth-submit" type="submit">Продолжить</button>
+        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Не менее 8 символов" minlength="8" maxlength="128" required>
+        <button class="button button-primary button-full" id="auth-submit" type="submit">Зарегистрироваться</button>
       </form>
       <p class="form-notice" id="form-notice" role="status" aria-live="polite"></p>
+    </div>
+  </dialog>
+
+  <dialog class="key-dialog" id="key-dialog" aria-labelledby="key-dialog-title">
+    <form method="dialog" class="dialog-close-row"><button class="icon-button" aria-label="Закрыть">×</button></form>
+    <div class="dialog-content">
+      <span class="eyebrow">ДОСТУП К ТРАНСЛЯЦИИ</span>
+      <h2 id="key-dialog-title">RTMP-ключ канала</h2>
+      <p>Храни ключ в секрете. Любой, у кого есть этот ключ, потенциально сможет использовать его для публикации в твоём канале после подключения RTMP-сервера.</p>
+      <div class="key-value-box"><code id="key-dialog-value"></code><button class="button button-outline" id="key-copy" type="button">Копировать</button></div>
+      <p class="form-notice" id="key-notice" role="status" aria-live="polite"></p>
+      <p class="security-note">Ключ не сохраняется в браузерном хранилище. Закрой это окно после копирования.</p>
     </div>
   </dialog>
 </body>

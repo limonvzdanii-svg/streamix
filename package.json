@@ -1,0 +1,28 @@
+{
+  "name": "streamix",
+  "version": "1.0.0",
+  "description": "STREAMIX internet television platform",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 migrations apply streamix-db --local",
+    "db:remote": "wrangler d1 migrations apply streamix-db --remote"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limonvzdanii-svg/streamix.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/limonvzdanii-svg/streamix/issues"
+  },
+  "homepage": "https://github.com/limonvzdanii-svg/streamix#readme",
+  "devDependencies": {
+    "wrangler": "^4.165.0"
+  }
+}

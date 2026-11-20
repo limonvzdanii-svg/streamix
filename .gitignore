@@ -1,0 +1,7 @@
+﻿.dev.vars*
+.env*
+.secrets*
+node_modules/
+.wrangler/
+public-backup-*/
+*.backup-*
